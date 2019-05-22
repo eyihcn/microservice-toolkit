@@ -12,7 +12,6 @@
   
   <modules>
   	<module>parent-config</module>
-  	<module>microservice-eureke</module>
     <module>business-service</module>
     <module>order-service</module>
     <module>storage-service</module>

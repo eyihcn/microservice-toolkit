@@ -2,66 +2,32 @@ package eyihcn.order.service.entity;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-@Entity
-@Table(name = "order_tbl")
-@DynamicUpdate
-@DynamicInsert
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("order_tbl")
 public class Order {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@TableId
+	public static final String ID = "id";
 	private Long id;
+
+	public static final String USER_ID = "user_id";
 	private String userId;
+
+	public static final String COMMODITY_CODE = "commodity_code";
 	private String commodityCode;
+
+	public static final String MONEY = "money";
 	private BigDecimal money;
+
+	public static final String COUNT = "count";
 	private Integer count;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getCommodityCode() {
-		return commodityCode;
-	}
-
-	public void setCommodityCode(String commodityCode) {
-		this.commodityCode = commodityCode;
-	}
-
-	public BigDecimal getMoney() {
-		return money;
-	}
-
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
-
-	public Integer getCount() {
-		return count;
-	}
-
-	public void setCount(Integer count) {
-		this.count = count;
-	}
 }

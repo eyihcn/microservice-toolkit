@@ -1,4 +1,4 @@
-package eyihcn.order.service;
+package eyihcn.storage.service;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,12 +8,13 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@EnableFeignClients
 @EnableDiscoveryClient
-@MapperScan("eyihcn.order.service.repository")
-public class OrderApplication {
+@EnableFeignClients
+@MapperScan("eyihcn.storage.service.repository")
+public class StorageApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrderApplication.class, args);
+		SpringApplication.run(StorageApplication.class, args);
 	}
+
 }

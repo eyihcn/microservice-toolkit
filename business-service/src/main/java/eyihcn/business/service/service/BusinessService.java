@@ -23,7 +23,7 @@ public class BusinessService {
 	 * @param orderCount
 	 */
 	@GlobalTransactional
-	public void purchase(String userId, String commodityCode, int orderCount) {
+	public void purchase(String userId, String commodityCode, Integer orderCount) {
 		storageFeignClient.deduct(commodityCode, orderCount);
 
 		orderFeignClient.create(userId, commodityCode, orderCount);

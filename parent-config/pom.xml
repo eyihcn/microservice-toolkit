@@ -19,11 +19,39 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<seata.version>0.5.0</seata.version>
+		<mysql-connector-java.version>8.0.11</mysql-connector-java.version>
+		<mybatis-plus-boot-starter.version>3.1.1</mybatis-plus-boot-starter.version>
+		<druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
+		<seata.version>0.5.2</seata.version>
 		<spring-boot-dependencies.version>2.1.5.RELEASE</spring-boot-dependencies.version>
 		<spring-cloud-dependencies.version>Greenwich.SR1</spring-cloud-dependencies.version>
+		<spring-cloud-alibaba-seata.version>0.9.0.RELEASE</spring-cloud-alibaba-seata.version>
+		<spring-cloud-starter-alibaba-nacos-discovery.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-discovery.version>
+		<spring-cloud-starter-alibaba-nacos-config.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-config.version>
 	</properties>
 
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
@@ -41,15 +69,27 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- nacos注册中心 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+				<version>${spring-cloud-starter-alibaba-nacos-discovery.version}</version>
+			</dependency>
+			<!--nacos配置中心 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+				<version>${spring-cloud-starter-alibaba-nacos-config.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid-spring-boot-starter</artifactId>
-				<version>1.1.10</version>
+				<version>${druid-spring-boot-starter.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-alibaba-seata</artifactId>
-				<version>0.9.0.RELEASE</version>
+				<version>${spring-cloud-alibaba-seata.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>io.seata</groupId>
@@ -62,15 +102,25 @@
 				<artifactId>seata-spring</artifactId>
 				<version>${seata.version}</version>
 			</dependency>
-<!-- 			<dependency> -->
-<!-- 				<groupId>org.springframework</groupId> -->
-<!-- 				<artifactId>spring-context</artifactId> -->
-<!-- 				<version>5.0.4.RELEASE</version> -->
-<!-- 			</dependency> -->
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-config-nacos</artifactId>
+				<version>${seata.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-discovery-nacos</artifactId>
+				<version>${seata.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>8.0.11</version>
+				<version>${mysql-connector-java.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus-boot-starter.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
