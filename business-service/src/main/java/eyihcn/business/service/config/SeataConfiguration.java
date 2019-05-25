@@ -1,5 +1,5 @@
 
-package eyihcn.order.service.config;
+package eyihcn.business.service.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +23,6 @@ public class SeataConfiguration {
 	 */
 	@Bean
 	public GlobalTransactionScanner globalTransactionScanner() {
-		System.out.println("txServiceGroup : " + applicationId);
-		System.out.println("txServiceGroup : " + txServiceGroup);
 		GlobalTransactionScanner globalTransactionScanner = new GlobalTransactionScanner(applicationId, txServiceGroup);
 		return globalTransactionScanner;
 	}

@@ -1,4 +1,4 @@
-package eyihcn.order.service.service.impl;
+package eyihcn.order.service.service;
 
 import java.math.BigDecimal;
 
@@ -11,16 +11,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import eyihcn.order.service.entity.Order;
 import eyihcn.order.service.feign.UserFeignClient;
 import eyihcn.order.service.repository.OrderMapper;
-import eyihcn.order.service.service.IOrderService;
 
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
+public class OrderService extends ServiceImpl<OrderMapper, Order> {
 
 	@Autowired
 	private UserFeignClient userFeignClient;
 
 	@Transactional
-	@Override
 	public void create(String userId, String commodityCode, Integer count) {
 
 		BigDecimal orderMoney = new BigDecimal(count).multiply(new BigDecimal(5));
@@ -32,6 +30,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		order.setMoney(orderMoney);
 
 		save(order);
+
+		log.debug("开始扣款、、、、、");
 
 		userFeignClient.debit(userId, orderMoney);
 

@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = -6702376057861569975L;
-	@TableId(value = "id", type = IdType.AUTO)
 	public static final String ID = "id";
+	@TableId(type = IdType.AUTO)
 	private Long id;
 
 	public static final String USER_ID = "user_id";

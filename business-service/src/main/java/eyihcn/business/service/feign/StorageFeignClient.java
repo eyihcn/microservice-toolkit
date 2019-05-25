@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface StorageFeignClient {
 
 	@GetMapping("/deduct")
-	void deduct(@RequestParam("commodityCode") String commodityCode, @RequestParam("count") Integer count);
+	Boolean deduct(@RequestParam("commodityCode") String commodityCode, @RequestParam("count") Integer count);
 
 }

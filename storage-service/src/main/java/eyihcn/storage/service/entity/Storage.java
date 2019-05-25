@@ -14,8 +14,9 @@ import lombok.experimental.Accessors;
 @TableName("storage_tbl")
 public class Storage {
 
-	@TableId(value = "id", type = IdType.AUTO)
 	public static final String ID = "id";
+
+	@TableId(type = IdType.AUTO)
 	private Long id;
 
 	public static final String COMMODITY_CODE = "commodity_code";

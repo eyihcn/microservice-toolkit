@@ -2,6 +2,7 @@ package eyihcn.order.service.entity;
 
 import java.math.BigDecimal;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -15,8 +16,9 @@ import lombok.experimental.Accessors;
 @TableName("order_tbl")
 public class Order {
 
-	@TableId
 	public static final String ID = "id";
+
+	@TableId(type = IdType.AUTO)
 	private Long id;
 
 	public static final String USER_ID = "user_id";
