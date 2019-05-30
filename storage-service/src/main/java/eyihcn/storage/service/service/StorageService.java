@@ -9,12 +9,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import eyihcn.storage.service.entity.Storage;
 import eyihcn.storage.service.repository.StorageMapper;
+import io.seata.core.context.RootContext;
 
 @Service
 public class StorageService extends ServiceImpl<StorageMapper, Storage> {
 
 	@Transactional(rollbackFor = Throwable.class)
 	public void deduct(String commodityCode, Integer count) {
+
+		System.out.println("全局事务id ：" + RootContext.getXID());
 
 		Storage storage = findByCommodityCode(commodityCode);
 		UpdateWrapper<Storage> updateWrapper = new UpdateWrapper<Storage>();

@@ -15,6 +15,7 @@ public class StorageController {
 
 	@GetMapping(path = "/deduct")
 	public Boolean deduct(@RequestParam("commodityCode") String commodityCode, @RequestParam("count") Integer count) {
+
 		storageService.deduct(commodityCode, count);
 		return true;
 	}

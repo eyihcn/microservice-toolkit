@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import eyihcn.order.service.entity.Order;
 import eyihcn.order.service.feign.UserFeignClient;
 import eyihcn.order.service.repository.OrderMapper;
+import io.seata.core.context.RootContext;
 
 @Service
 public class OrderService extends ServiceImpl<OrderMapper, Order> {
@@ -18,8 +19,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
 	@Autowired
 	private UserFeignClient userFeignClient;
 
-	@Transactional
+	@Transactional(rollbackFor = Throwable.class)
 	public void create(String userId, String commodityCode, Integer count) {
+
+		System.out.println("全局事务id ：" + RootContext.getXID());
 
 		BigDecimal orderMoney = new BigDecimal(count).multiply(new BigDecimal(5));
 

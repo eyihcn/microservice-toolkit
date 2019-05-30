@@ -12,9 +12,8 @@
   
   <modules>
   	<module>parent-config</module>
-    <module>business-service</module>
-    <module>order-service</module>
-    <module>storage-service</module>
+    <module>seata-sample</module>
     <module>user-service</module>
+    <module>common-core</module>
   </modules>
 </project>
