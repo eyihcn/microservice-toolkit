@@ -41,7 +41,7 @@ import io.swagger.annotations.ApiOperation;
  * @param <PageDto> 分页dto类型
  */
 @Validated
-public class BaseController<S extends IService<T>, T extends BaseEntity<Serializable>, PageDto extends PageQuery> {
+public class BaseController<S extends IService<T>, T extends BaseEntity<? extends Serializable>, PageDto extends PageQuery> {
 
 	@Autowired
 	private S baseService;
@@ -92,6 +92,9 @@ public class BaseController<S extends IService<T>, T extends BaseEntity<Serializ
 			e.setCreateTime(new Date());
 			// TODO
 			e.setCreateUser(0L);
+		} else {
+			e.setUpdateTime(new Date());
+			e.setUpdateUser(0L);
 		}
 		if (baseService.saveOrUpdate(e)) {
 			return Response.ok();

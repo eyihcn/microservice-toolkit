@@ -1,4 +1,4 @@
-package eyichn.user.model;
+package eyihcn.user.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -18,8 +18,6 @@ public class User extends BaseEntity<Long> {
 	@TableId(type = IdType.AUTO)
 	private Long id;
 
-	private String nickName;
-
 	@Override
 	public Long getId() {
 		return this.id;
@@ -29,5 +27,22 @@ public class User extends BaseEntity<Long> {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	/**
+	 * 姓名
+	 */
+	public static final String NAME = "name";
+	private String name;
+
+	/**
+	 * 年龄
+	 */
+	public static final String AGE = "age";
+	private Integer age;
+	/**
+	 * 邮箱
+	 */
+	public static final String EMAIL = "email";
+	private String email;
 
 }
