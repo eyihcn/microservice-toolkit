@@ -1,6 +1,6 @@
 package eyihcn.user.dto;
 
-import eyihcn.common.core.page.PageQueryDto;
+import eyihcn.common.core.page.PageQueryParam;
 import eyihcn.common.core.utils.QueryKey;
 import eyihcn.common.core.utils.QueryKey.Operator;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserPageDto extends PageQueryDto {
+public class UserPageDto extends PageQueryParam {
 
 	private String name;
 

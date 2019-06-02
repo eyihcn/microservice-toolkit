@@ -1,6 +1,8 @@
 package eyihcn.common.core.page;
 
-import java.util.List;
+import java.util.Collection;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,6 +33,25 @@ public class PageBean<T> {
 	private long pageSize;
 
 	@ApiModelProperty("当前页数据列表")
-	private List<T> records;
+	private Collection<T> records;
 
+	public static <E> PageBean<E> newPageBean(IPage<E> page) {
+		PageBean<E> pageBean = new PageBean<E>();
+		pageBean.setCurrentPage(page.getCurrent());
+		pageBean.setTotalPage(page.getPages());
+		pageBean.setPageSize(page.getSize());
+		pageBean.setTotal(page.getTotal());
+		pageBean.setRecords(page.getRecords());
+		return pageBean;
+	}
+
+	public static <E> PageBean<E> newPageBean(IPage<?> page, Collection<E> col) {
+		PageBean<E> pageBean = new PageBean<E>();
+		pageBean.setCurrentPage(page.getCurrent());
+		pageBean.setTotalPage(page.getPages());
+		pageBean.setPageSize(page.getSize());
+		pageBean.setTotal(page.getTotal());
+		pageBean.setRecords(col);
+		return pageBean;
+	}
 }
