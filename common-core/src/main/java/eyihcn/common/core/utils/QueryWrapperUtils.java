@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
-import eyihcn.common.core.utils.QueryKey.Operator;
+import eyihcn.common.core.annotation.QueryKey;
+import eyihcn.common.core.annotation.QueryKey.Operator;
 
 /**
  * <p>
@@ -34,57 +35,6 @@ public class QueryWrapperUtils {
 	 * 验证字符串是否是数据库字段
 	 */
 	private static final Pattern P_IS_COLUMN = Pattern.compile("^\\w\\S*[\\w\\d]*$");
-
-	/**
-	 * 判断字符串是否符合数据库字段的命名
-	 *
-	 * @param str 字符串
-	 * @return 判断结果
-	 */
-	public static boolean isNotColumnName(String str) {
-		return !P_IS_COLUMN.matcher(str).matches();
-	}
-
-	/**
-	 * 判断字符串是否为空
-	 *
-	 * @param cs 需要判断字符串
-	 * @return 判断结果
-	 */
-	public static boolean isEmpty(final CharSequence cs) {
-		int strLen;
-		if (cs == null || (strLen = cs.length()) == 0) {
-			return true;
-		}
-		for (int i = 0; i < strLen; i++) {
-			if (!Character.isWhitespace(cs.charAt(i))) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * 字符串驼峰转下划线格式
-	 *
-	 * @param param 需要转换的字符串
-	 * @return 转换好的字符串
-	 */
-	public static String camelToUnderline(String param) {
-		if (isEmpty(param)) {
-			return EMPTY;
-		}
-		int len = param.length();
-		StringBuilder sb = new StringBuilder(len);
-		for (int i = 0; i < len; i++) {
-			char c = param.charAt(i);
-			if (Character.isUpperCase(c) && i > 0) {
-				sb.append(UNDERLINE);
-			}
-			sb.append(Character.toLowerCase(c));
-		}
-		return sb.toString();
-	}
 
 	public static <T> QueryWrapper<T> getQueryWrapper(Object queryObject) {
 
@@ -114,6 +64,15 @@ public class QueryWrapperUtils {
 			}
 			// 获取数据库字段的操作符
 			QueryKey.Operator operator = getFieldOperator(f);
+			if (val == null) {
+				if (operator == null || operator != Operator.NULL || operator != Operator.NOT_NULL) {
+					continue;
+				}
+			} else {
+				if (operator == null) {
+					operator = Operator.EQ;
+				}
+			}
 			switch (operator) {
 			case EQ:
 				queryWrapper.eq(fieldNameUnderline, val);
@@ -144,6 +103,7 @@ public class QueryWrapperUtils {
 				break;
 			case NOT_RIGHT_LIKE:
 				// TODO
+//				queryWrapper.apply(applySql, value)
 				break;
 			case LEFT_LIKE:
 				queryWrapper.likeRight(fieldNameUnderline, val);
@@ -235,5 +195,56 @@ public class QueryWrapperUtils {
 			return camelToUnderline(fieldName);
 		}
 		return name;
+	}
+
+	/**
+	 * 判断字符串是否符合数据库字段的命名
+	 *
+	 * @param str 字符串
+	 * @return 判断结果
+	 */
+	public static boolean isNotColumnName(String str) {
+		return !P_IS_COLUMN.matcher(str).matches();
+	}
+
+	/**
+	 * 判断字符串是否为空
+	 *
+	 * @param cs 需要判断字符串
+	 * @return 判断结果
+	 */
+	public static boolean isEmpty(final CharSequence cs) {
+		int strLen;
+		if (cs == null || (strLen = cs.length()) == 0) {
+			return true;
+		}
+		for (int i = 0; i < strLen; i++) {
+			if (!Character.isWhitespace(cs.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 字符串驼峰转下划线格式
+	 *
+	 * @param param 需要转换的字符串
+	 * @return 转换好的字符串
+	 */
+	public static String camelToUnderline(String param) {
+		if (isEmpty(param)) {
+			return EMPTY;
+		}
+		int len = param.length();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++) {
+			char c = param.charAt(i);
+			if (Character.isUpperCase(c) && i > 0) {
+				sb.append(UNDERLINE);
+			}
+			sb.append(Character.toLowerCase(c));
+		}
+		return sb.toString();
 	}
 }

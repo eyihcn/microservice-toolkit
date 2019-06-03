@@ -23,6 +23,6 @@ import io.swagger.annotations.Api;
 @Validated
 @RequestMapping("/user")
 @Api(value = "管理", tags = "管理")
-public class UserController extends BaseController<UserServiceImpl, User, User, UserPageDto, User> {
+public class UserController extends BaseController<UserServiceImpl, User, Long, User, UserPageDto, User> {
 
 }

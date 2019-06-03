@@ -1,8 +1,8 @@
 package eyihcn.user.dto;
 
+import eyihcn.common.core.annotation.QueryKey;
+import eyihcn.common.core.annotation.QueryKey.Operator;
 import eyihcn.common.core.page.PageQueryParam;
-import eyihcn.common.core.utils.QueryKey;
-import eyihcn.common.core.utils.QueryKey.Operator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
