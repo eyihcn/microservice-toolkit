@@ -19,8 +19,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  */
 @RestController
 @Validated
-@RequestMapping("/!{table.entityPath}")
+@RequestMapping("/$!{table.entityPath}")
 @Api(value = "$!{table.comment}管理" , tags = "$!{table.comment}管理")
-public class $!{table.controllerName} extends BaseController<${table.serviceName}, ${entity}, ${table.fields[0].propertyType}, ${entity}, UserPageDto, ${entity}> {
+public class $!{table.controllerName} extends CrudController<${table.serviceName}, ${entity}, ${table.fields[0].propertyType}, ${entity}, UserPageDto, ${entity}> {
 
 }
