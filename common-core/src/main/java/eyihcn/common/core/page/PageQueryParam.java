@@ -17,26 +17,26 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public class PageQueryParam implements IPageQuery {
 
-	private long pageNo;
-	private long pageSize;
+	private Long pageNo;
+	private Long pageSize;
 
 	@Override
-	public void setPageNo(long pageNo) {
+	public void setPageNo(Long pageNo) {
 		this.pageNo = pageNo;
 	}
 
 	@Override
-	public long getPageNo() {
+	public Long getPageNo() {
 		return this.pageNo;
 	}
 
 	@Override
-	public void setPageSize(long pageSize) {
+	public void setPageSize(Long pageSize) {
 		this.pageSize = pageSize;
 	}
 
 	@Override
-	public long getPageSize() {
+	public Long getPageSize() {
 		return this.pageSize;
 	}
 

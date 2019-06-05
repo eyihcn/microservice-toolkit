@@ -56,11 +56,11 @@ public @interface QueryKey {
 		/** is null */
 		NULL,
 		/** is not null */
-		NOT_NULL,
+		NOT_NULL
 		/** order by desc */
-		ORDER_BY_DESC,
+//		ORDER_BY_DESC,
 		/** order by asc */
-		ORDER_BY_ASC
+//		ORDER_BY_ASC
 	}
 
 	/**

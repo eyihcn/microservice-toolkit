@@ -1,0 +1,13 @@
+server:
+  port: 8881
+
+spring:
+  application:
+    name: vitea-generator-code
+  datasource:
+    url: jdbc:mysql://localhost:3306/vitea?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

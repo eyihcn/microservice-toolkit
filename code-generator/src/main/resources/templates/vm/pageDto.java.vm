@@ -1,0 +1,17 @@
+package ${cfg.DtoPak};
+
+import eyihcn.common.core.page.PageQueryParam;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * <p>Description: $!{table.comment}</p> 
+ * @author ${author}
+ * @date ${date}${time}
+ * ${tags}
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ${entity}PageDto extends PageQueryParam {
+
+}

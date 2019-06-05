@@ -25,11 +25,11 @@ import eyihcn.common.core.beancopy.IPageVoCopier;
 import eyihcn.common.core.beancopy.ISaveDtoCopier;
 import eyihcn.common.core.beancopy.SimplePageVoCopier;
 import eyihcn.common.core.beancopy.SimpleSaveDtoCopier;
-import eyihcn.common.core.constant.GlobalConstant;
+import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.dto.UserInfo;
 import eyihcn.common.core.enums.ErrorCodeEnum;
 import eyihcn.common.core.exception.BusinessException;
 import eyihcn.common.core.model.BaseEntity;
-import eyihcn.common.core.model.LoginAuthDto;
 import eyihcn.common.core.model.Response;
 import eyihcn.common.core.page.IPageQuery;
 import eyihcn.common.core.page.PageBean;
@@ -53,7 +53,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @SuppressWarnings("unchecked")
 @Validated
-public class BaseController<S extends IService<T>, T extends BaseEntity<PK>, PK extends Serializable, SaveDto, PageQueryDto extends IPageQuery, EntityVo> {
+public class CrudController<S extends IService<T>, T extends BaseEntity<PK>, PK extends Serializable, SaveDto, PageQueryDto extends IPageQuery, EntityVo> {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -69,7 +69,7 @@ public class BaseController<S extends IService<T>, T extends BaseEntity<PK>, PK 
 	private IPageVoCopier pageVoCopier;
 	private static final String Page_Vo_Copier = "PageVoCopier";
 
-	public BaseController() {
+	public CrudController() {
 		this.entityClass = MyBeanUtil.getSuperClassGenericType(this.getClass(), 1);
 //		Field declaredField = null;
 //		try {
@@ -96,16 +96,36 @@ public class BaseController<S extends IService<T>, T extends BaseEntity<PK>, PK 
 	}
 
 	/**
-	 * Gets login auth dto.
-	 *
-	 * @return the login auth dto
+	 * 
+	 * <p>
+	 * Description: 获取登录人的信息
+	 * </p>
+	 * 
+	 * @author chenyi
+	 * @date 2019年6月4日上午9:58:24
+	 * @return
 	 */
-	protected LoginAuthDto getLoginAuthDto() {
-		LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalConstant.Sys.TOKEN_AUTH_DTO);
-		if (null == loginAuthDto) {
-			throw new BusinessException(ErrorCodeEnum.USER_10011041);
+	protected UserInfo getLoginUserInfo() {
+		UserInfo userInfo = (UserInfo) ThreadLocalMap.get(CommonConstant.LOGIN_USER_INFO);
+		return userInfo;
+	}
+
+	/**
+	 * 
+	 * <p>
+	 * Description: 获取登录人ID
+	 * </p>
+	 * 
+	 * @author chenyi
+	 * @date 2019年6月4日上午9:59:25
+	 * @return 无登录用户，返回null
+	 */
+	protected Long getLoginUserId() {
+		UserInfo userInfo = (UserInfo) ThreadLocalMap.get(CommonConstant.LOGIN_USER_INFO);
+		if (null == userInfo) {
+			return null;
 		}
-		return loginAuthDto;
+		return userInfo.getId();
 	}
 
 	@ApiOperation(value = "根据id集合查询(参数请放在form表单中)")
@@ -179,16 +199,14 @@ public class BaseController<S extends IService<T>, T extends BaseEntity<PK>, PK 
 			T old = baseService.getById(id);
 			if (old != null) {
 				entity.setUpdateTime(new Date());
-				// TODO
-				entity.setUpdateUser(0L);
+				entity.setUpdateUser(getLoginUserId());
 				return baseService.saveOrUpdate((T) entity) ? Response.ok() : Response.failed();
 			} else {
 				return Response.failedWithMsg("该记录不存在，更新失败！");
 			}
 		}
 		entity.setCreateTime(new Date());
-		// TODO
-		entity.setCreateUser(0L);
+		entity.setCreateUser(getLoginUserId());
 		return baseService.saveOrUpdate((T) entity) ? Response.ok() : Response.failed();
 	}
 

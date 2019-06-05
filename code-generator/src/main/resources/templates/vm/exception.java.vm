@@ -1,0 +1,35 @@
+package ${cfg.ExceptionPak};
+
+import com.xq.viteautilcore.handler.ViteaRuntimeException;
+
+/**
+ * <p>
+ * $!{table.comment} 异常处理类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public class  ${entity}Exception extends ViteaRuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public ${entity}Exception(){ }
+
+    public ${entity}Exception(String code) {
+        super(code);
+    }
+
+    public ${entity}Exception(String code, Object[] placeholders) {
+        super(code,placeholders) ;
+    }
+
+    public ${entity}Exception(String code, Object[] params, String message) {
+        super(code,params,message) ;
+    }
+
+    public ${entity}Exception(String code, String message) {
+        super(code,message) ;
+    }
+
+}

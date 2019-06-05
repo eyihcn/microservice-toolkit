@@ -15,5 +15,6 @@
     <module>seata-sample</module>
     <module>user-service</module>
     <module>common-core</module>
+    <module>code-generator</module>
   </modules>
 </project>

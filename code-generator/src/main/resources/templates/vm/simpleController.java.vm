@@ -1,0 +1,26 @@
+package ${package.Controller};
+
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import eyihcn.common.core.controller.CrudController;
+import ${cfg.DtoPak}.${entity}PageDto;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import io.swagger.annotations.Api;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+/**
+ * @author chenyi 
+ * @date ${date}${time}
+ * ${tags}
+ */
+@RestController
+@Validated
+@RequestMapping("/!{table.entityPath}")
+@Api(value = "$!{table.comment}管理" , tags = "$!{table.comment}管理")
+public class $!{table.controllerName} extends BaseController<${table.serviceName}, ${entity}, ${table.fields[0].propertyType}, ${entity}, UserPageDto, ${entity}> {
+
+}

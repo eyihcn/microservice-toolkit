@@ -1,27 +1,23 @@
-package eyihcn.user.controller;
+package eyihcn.user.test.controller;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eyihcn.common.core.controller.CrudController;
-import eyihcn.user.model.User;
-import eyihcn.user.service.impl.UserServiceImpl;
+import eyihcn.user.test.dto.UserPageDto;
+import eyihcn.user.test.entity.User;
+import eyihcn.user.test.service.UserService;
 import io.swagger.annotations.Api;
 
 /**
- * 
- * <p>
- * Description:
- * </p>
- * 
  * @author chenyi
- * @date 2019年5月31日下午3:10:29
+ * @date 2019-06-05${time} ${tags}
  */
 @RestController
 @Validated
-@RequestMapping("/user")
+@RequestMapping("/!{table.entityPath}")
 @Api(value = "管理", tags = "管理")
-public class UserController extends CrudController<UserServiceImpl, User, Long, User, User, User> {
+public class UserController extends CrudController<UserService, User, Long, User, UserPageDto, User> {
 
 }

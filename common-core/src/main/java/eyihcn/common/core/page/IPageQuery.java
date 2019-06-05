@@ -23,7 +23,7 @@ public interface IPageQuery {
 	 * @date 2019年5月30日下午4:43:52
 	 * @param pageNo
 	 */
-	void setPageNo(long pageNo);
+	void setPageNo(Long pageNo);
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public interface IPageQuery {
 	 * @date 2019年5月30日下午4:45:19
 	 * @return
 	 */
-	long getPageNo();
+	Long getPageNo();
 
 	/**
 	 * 
@@ -47,7 +47,7 @@ public interface IPageQuery {
 	 * @date 2019年5月30日下午4:45:34
 	 * @param pageSize
 	 */
-	void setPageSize(long pageSize);
+	void setPageSize(Long pageSize);
 
 	/**
 	 * 
@@ -59,5 +59,5 @@ public interface IPageQuery {
 	 * @date 2019年5月30日下午4:45:58
 	 * @return
 	 */
-	long getPageSize();
+	Long getPageSize();
 }
