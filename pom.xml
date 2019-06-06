@@ -16,5 +16,6 @@
     <module>user-service</module>
     <module>common-core</module>
     <module>code-generator</module>
+    <module>reliable-message</module>
   </modules>
 </project>

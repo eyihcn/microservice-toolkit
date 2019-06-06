@@ -1,0 +1,142 @@
+package com.fuli.cloud.app.queue.listener;
+
+import javax.annotation.Resource;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSONObject;
+import com.fuli.cloud.app.queue.service.biz.GroupPushMessageFeignClient;
+import com.fuli.cloud.app.queue.service.biz.UpushMsgQueueBiz;
+import com.fuli.cloud.commons.Response;
+import com.fuli.cloud.commons.Result;
+import com.fuli.cloud.constants.CommonConstant;
+import com.fuli.cloud.enums.PushStatus;
+import com.fuli.cloud.message.provider.annotation.MessageConsumerAroundHandler;
+import com.fuli.cloud.message.provider.model.domain.FuliMqMessage;
+import com.fuli.cloud.message.provider.model.enums.ConsumeConcurrentlyStatusEnum;
+import com.fuli.cloud.message.provider.service.feign.FuliMqMessageFeignApi;
+import com.fuli.cloud.message.provider.util.MessageBizResultUtils;
+import com.fuli.cloud.model.system.GroupPushMessage;
+import com.fuli.cloud.model.upush.PushVo;
+import com.fuli.cloud.utils.JacksonUtil;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 添加监听友盟广播推送队列的Mq队列消息的处理逻辑
+ *
+ * @author: 易煌
+ */
+@Component
+@Slf4j
+public class UpushBroadCastMessageRabbitMqListener2 {
+
+	@Autowired
+	private UpushMsgQueueBiz upushMsgQueueBiz;
+
+	@Resource
+	private FuliMqMessageFeignApi fuliMqMessageFeignApi;
+
+	@Resource
+	private GroupPushMessageFeignClient groupSentMessageFeignClient;
+
+	@MessageConsumerAroundHandler
+	@RabbitListener(queues = "UPUSH_BROADCAST_MSSAGE_QUEUE")
+	public void handlerUpushBroadcastMssageQueue(FuliMqMessage message) {
+
+		log.debug("《====== 友盟广播推送队列的Mq队列 的监听器收到了消息，消息id为[{}] ，消息体为[{}]", message.getId(), message.getMessageBody());
+		// 跨服务，必须try，
+		String msgType = message.getField1();
+		PushVo pushVo = null;
+		if (msgType != null && CommonConstant.APP_PUSH_MESSAGE.equals(msgType)) {
+			try {
+				hanlderGroupPushMessage(message);
+			} catch (Exception e) {
+				log.error("友盟广播推送消息出现异常，消息Id={}, 消息队列={} ,异常信息={}", message.getId(), message.getConsumerQueue(), e);
+				// 使用注解，强制必填 ，业务处理失败,脚本稍后重试
+				MessageBizResultUtils.setConsumeResult(ConsumeConcurrentlyStatusEnum.RECONSUME_LATER);
+			}
+		} else {
+			pushVo = JSONObject.parseObject(message.getMessageBody(), PushVo.class);
+			Result<?> result = upushMsgQueueBiz.sendMsgBroadCast(pushVo);
+			log.debug("===========友盟广播推送响应结果=====");
+			JacksonUtil.dumnToPrettyJson(result);
+			log.debug("===========友盟广播推送响应结果=====");
+		}
+	}
+
+	private void hanlderGroupPushMessage(FuliMqMessage message) {
+
+		GroupPushMessage groupPushMessage = JSONObject.parseObject(message.getMessageBody(), GroupPushMessage.class);
+		Result<?> result = null;
+		boolean isSendSuccess = true;
+		try {
+			// 1.先推送友盟消息
+			result = sendMsgBroadCast(groupPushMessage, message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSendSuccess = false;
+		}
+		if (null == result || !isSendSuccess) {
+			groupPushMessage.setPushStatus(PushStatus.PUSH_FAIL.getCode());
+			groupPushMessage.setFailMsg("友盟群发消息推送服务接口调用失败！可靠消息服务会继续重试推送！ ");
+			log.error("友盟群发消息推送服务接口调用失败！ 可靠消息服务会继续重试推送！异常堆栈如下");
+			groupSentMessageFeignClient.createOrUpdate(groupPushMessage);
+			MessageBizResultUtils.setConsumeResult(ConsumeConcurrentlyStatusEnum.RECONSUME_LATER);
+			return;
+		}
+		Integer code = result.getCode();
+		if (0 == code) {
+			log.debug("app推送消息结果code为 0, 可靠消息Id为{}", message.getId());
+			// 2. 消息推送成功，计入消息历史
+			groupPushMessage.setPushStatus(PushStatus.PUSH_SUCCESS.getCode());
+		} else if (400 == code) {
+			// 推送失败，验证出错
+			groupPushMessage.setPushStatus(PushStatus.PUSH_FAIL.getCode());
+			Object faliObject = result.getData();
+			if (null == faliObject) {
+				faliObject = "";
+			}
+			groupPushMessage.setFailMsg(JSONObject.toJSONString(faliObject));
+			log.debug("app推送消息结果code为 400，可靠消息Id为{}， 失败原因：{}", message.getId(), groupPushMessage.getFailMsg());
+		} else {
+			// 内部接口错误,提示稍后会重试
+			groupPushMessage.setPushStatus(PushStatus.PUSH_FAIL.getCode());
+			groupPushMessage.setFailMsg(JSONObject.toJSONString(result));
+			log.debug("其他错误，可靠消息服务会继续重试推送！,  推送返回结果result = {}", result);
+			groupSentMessageFeignClient.createOrUpdate(groupPushMessage);
+			MessageBizResultUtils.setConsumeResult(ConsumeConcurrentlyStatusEnum.RECONSUME_LATER);
+			return;
+		}
+
+		// 先根据可靠消息id查询，是否已经有历史记录了，若存在历史记录，则更新推送结果即可
+		Response<?> uResult= groupSentMessageFeignClient.createOrUpdate(groupPushMessage);
+		if (uResult.checkIsOk()) {
+			log.info("====更新推送结果到推送历史成功====，可靠消息ID={}", message.getId());
+			MessageBizResultUtils.setConsumeResult(ConsumeConcurrentlyStatusEnum.CONSUME_SUCCESS);
+		} else {
+			MessageBizResultUtils.setConsumeResult(ConsumeConcurrentlyStatusEnum.RECONSUME_LATER);
+		}
+	}
+
+	private Result<?> sendMsgBroadCast(GroupPushMessage groupPushMessage, FuliMqMessage message) {
+		// TODO 通过可靠消息ID，查看是否推送成功
+		PushVo pushVo = new PushVo();
+		pushVo.setTitle(groupPushMessage.getTitle());
+		pushVo.setText(groupPushMessage.getMessageContent());
+		pushVo.setUrl(groupPushMessage.getMessageLink());
+		pushVo.setOperatorId(groupPushMessage.getPublisher());
+		// 5:系统消息
+		pushVo.setProfessionType(5);
+		pushVo.setMessageId(message.getId());
+		pushVo.setOperatorId(groupPushMessage.getPublisher());
+		// 推送成功，结果可查询
+		Result<?> result = upushMsgQueueBiz.sendMsgBroadCast(pushVo);
+		log.debug("===========sendMsgBroadCast结果=====");
+		JacksonUtil.dumnToPrettyJson(result);
+		log.debug("===========sendMsgBroadCast结果=====");
+		return result;
+	}
+}

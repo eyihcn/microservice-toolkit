@@ -1,0 +1,18 @@
+server:
+  port: 7008
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: fuli-cloud-app-message
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.4.4:8848
+      config:
+        file-extension: yml
+        namespace: d07604cc-12bb-4fd7-b95a-641ac8046dc9
+        server-addr: 172.16.4.4:8848
+        group: DEV_GROUP
+        ext-config:
+        - data-id: fuli-cloud-app-message-dev.yml

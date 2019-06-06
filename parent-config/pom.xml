@@ -28,6 +28,12 @@
 		<spring-cloud-alibaba-seata.version>0.9.0.RELEASE</spring-cloud-alibaba-seata.version>
 		<spring-cloud-starter-alibaba-nacos-discovery.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-discovery.version>
 		<spring-cloud-starter-alibaba-nacos-config.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-config.version>
+		<!--start 消息中心版本定义 -->
+		<provider-message-service-impl.version>1.0.1</provider-message-service-impl.version>
+		<provider-message-service-api.version>1.0.1</provider-message-service-api.version>
+		<fuli-cloud-app-message.version>1.0.1</fuli-cloud-app-message.version>
+		<consumer-message-queue.version>1.0.1</consumer-message-queue.version>
+		<!--end 消息中心版本定义 -->
 	</properties>
 
 
@@ -70,11 +76,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
-			<version>2.2</version>
 		</dependency>
 	</dependencies>
 

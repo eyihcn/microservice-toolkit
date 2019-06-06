@@ -1,0 +1,25 @@
+server:
+  port: 7006
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: provider-message-service
+  cloud:
+    #####  以下是nacos配置
+    nacos:
+      discovery:  # nacos注册中心
+        server-addr: 172.16.4.4:8847
+      config:   # nacos配置中心
+        file-extension: yml
+        namespace: 7332b777-274a-41ae-be85-efd808764476
+        server-addr: 172.16.4.4:8847
+        group: DEFAULT_GROUP
+        ext-config:   # 引入多配置文件，一个配置文件对应一个data-id，data-id必须带一个group
+          - data-id: provider-message-service-local.yml
+
+
+
+
+

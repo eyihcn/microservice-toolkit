@@ -29,12 +29,12 @@ public class BusinessException extends RuntimeException {
 		super(message, cause);
 	}
 
-	public BusinessException(int code, String message) {
+	public BusinessException(Long code, String message) {
 		super(message);
 		this.code = code;
 	}
 
-	public BusinessException(int code, String msgFormat, Object... args) {
+	public BusinessException(Long code, String msgFormat, Object... args) {
 		super(String.format(msgFormat, args));
 		this.code = code;
 	}
