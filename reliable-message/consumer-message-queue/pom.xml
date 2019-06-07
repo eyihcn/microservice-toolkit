@@ -14,9 +14,13 @@
 	<name>消息业务消费端</name>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>com.fuli.cloud</groupId>
+			<groupId>eyihcn</groupId>
+			<artifactId>common-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eyihcn</groupId>
 			<artifactId>provider-message-service-api</artifactId>
 			<version>${provider-message-service-api.version}</version>
 		</dependency>

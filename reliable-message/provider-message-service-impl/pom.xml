@@ -16,7 +16,11 @@
 	<version>${provider-message-service-impl.version}</version>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>eyihcn</groupId>
+			<artifactId>common-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>eyihcn</groupId>
 			<artifactId>provider-message-service-api</artifactId>

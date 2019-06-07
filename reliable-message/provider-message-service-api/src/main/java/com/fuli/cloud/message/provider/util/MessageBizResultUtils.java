@@ -31,4 +31,11 @@ public class MessageBizResultUtils {
 		ThreadLocalMap.put(PRODUCERESULT_STRING, produceResult);
 	}
 
+	public static void clearConsumeResult() {
+		ThreadLocalMap.remove(CONSUMRESULT_STRING);
+	}
+
+	public static void clearProduceResult() {
+		ThreadLocalMap.remove(PRODUCERESULT_STRING);
+	}
 }

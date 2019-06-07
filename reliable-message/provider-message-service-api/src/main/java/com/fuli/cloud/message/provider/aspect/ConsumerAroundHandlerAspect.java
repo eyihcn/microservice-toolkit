@@ -86,6 +86,7 @@ public class ConsumerAroundHandlerAspect {
 					System.currentTimeMillis() - startTime);
 			throw e;
 		} finally {
+			MessageBizResultUtils.clearConsumeResult();
 			log.info("消费可靠消息 目标方法[{}], 总耗时={}ms", methodName, System.currentTimeMillis() - startTime);
 		}
 	}

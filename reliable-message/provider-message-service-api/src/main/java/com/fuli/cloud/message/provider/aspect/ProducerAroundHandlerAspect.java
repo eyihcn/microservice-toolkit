@@ -94,8 +94,10 @@ public class ProducerAroundHandlerAspect {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			MessageBizResultUtils.clearProduceResult();
+			log.info("生产者切面执行完成, 目标方法[{}],总耗时={}ms", methodName, System.currentTimeMillis() - startTime);
 		}
-		log.info("生产者切面执行完成, 目标方法[{}],总耗时={}ms", methodName, System.currentTimeMillis() - startTime);
 	}
 
 	private static MessageProducerAroundHandler getAnnotation(JoinPoint joinPoint) {

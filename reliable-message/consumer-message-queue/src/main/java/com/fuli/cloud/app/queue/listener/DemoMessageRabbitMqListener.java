@@ -37,7 +37,6 @@ public class DemoMessageRabbitMqListener {
 			log.debug(" ===模拟消费端业务延时50毫秒===");
 			Thread.sleep(50);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// 强制必填 ，业务处理成功
