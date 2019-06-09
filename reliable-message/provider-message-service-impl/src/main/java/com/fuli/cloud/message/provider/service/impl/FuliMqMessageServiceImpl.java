@@ -18,7 +18,7 @@ import com.fuli.cloud.message.provider.model.enums.MessageStatusEnum;
 import com.fuli.cloud.message.provider.model.enums.PublicEnum;
 import com.fuli.cloud.message.provider.service.FuliMqMessageService;
 
-import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.constant.CommonConstant;
 import eyihcn.common.core.enums.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,6 +1,7 @@
 package eyihcn.common.core.lock;
 
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 public class RedissonConfig {
 
 	@Bean
-	IDistributedLockTemplate distributedLockTemplate(RedissonClient redissonClient) {
-		return new SingleDistributedLockTemplate(redissonClient);
+	IDistributedLockTemplate distributedLockTemplate(@Autowired RedissonClient redissonClient) {
+		return new RedissonDistributedLockTemplate(redissonClient);
 	}
 
 	@Bean
-	DistributedLockAspect distributedLockAspect(IDistributedLockTemplate iDistributedLockTemplate) {
+	DistributedLockAspect distributedLockAspect(@Autowired IDistributedLockTemplate iDistributedLockTemplate) {
 		return new DistributedLockAspect(iDistributedLockTemplate);
 	}
 }

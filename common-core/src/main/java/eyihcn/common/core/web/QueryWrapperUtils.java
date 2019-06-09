@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eyihcn.common.core.utils;
+package eyihcn.common.core.web;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -12,9 +12,8 @@ import java.util.regex.Pattern;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Sets;
 
-import eyihcn.common.core.annotation.QueryKey;
-import eyihcn.common.core.annotation.QueryKey.Operator;
 import eyihcn.common.core.model.BaseEntity;
+import eyihcn.common.core.web.QueryKey.Operator;
 
 /**
  * <p>

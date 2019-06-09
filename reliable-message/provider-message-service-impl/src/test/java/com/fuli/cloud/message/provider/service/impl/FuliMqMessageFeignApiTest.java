@@ -21,7 +21,7 @@ import com.fuli.cloud.message.provider.model.enums.RabbitMqQueue;
 import com.fuli.cloud.message.provider.service.feign.FuliMqMessageFeignApi;
 import com.fuli.cloud.message.provider.util.MessageBizResultUtils;
 
-import eyihcn.common.core.com.sequence.UniqueIdWorker;
+import eyihcn.common.core.sequence.UniqueIdWorker;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

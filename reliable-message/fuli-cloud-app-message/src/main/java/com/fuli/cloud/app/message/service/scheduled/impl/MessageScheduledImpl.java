@@ -23,7 +23,7 @@ import com.fuli.cloud.message.provider.model.enums.PublicEnum;
 import com.fuli.cloud.message.provider.service.feign.FuliMqMessageFeignApi;
 import com.google.common.base.Preconditions;
 
-import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.constant.CommonConstant;
 import eyihcn.common.core.model.Response;
 import eyihcn.common.core.page.PageBean;
 import eyihcn.common.core.utils.MyBeanUtil;

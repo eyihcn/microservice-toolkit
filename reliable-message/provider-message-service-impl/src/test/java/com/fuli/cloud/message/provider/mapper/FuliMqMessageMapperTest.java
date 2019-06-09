@@ -15,7 +15,7 @@ import com.fuli.cloud.message.provider.model.domain.FuliMqMessage;
 import com.fuli.cloud.message.provider.model.enums.MessageStatusEnum;
 import com.fuli.cloud.message.provider.model.enums.RabbitMqQueue;
 
-import eyihcn.common.core.com.sequence.UniqueIdWorker;
+import eyihcn.common.core.sequence.UniqueIdWorker;
 import eyihcn.common.core.utils.QWrapper;
 
 /**

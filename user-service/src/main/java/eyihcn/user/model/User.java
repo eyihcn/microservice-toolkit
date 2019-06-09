@@ -9,9 +9,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import eyihcn.common.core.annotation.QueryKey;
-import eyihcn.common.core.annotation.QueryKey.Operator;
 import eyihcn.common.core.model.BaseEntity;
+import eyihcn.common.core.web.QueryKey;
+import eyihcn.common.core.web.QueryKey.Operator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

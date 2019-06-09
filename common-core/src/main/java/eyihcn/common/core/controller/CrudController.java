@@ -25,7 +25,7 @@ import eyihcn.common.core.beancopy.IPageVoCopier;
 import eyihcn.common.core.beancopy.ISaveDtoCopier;
 import eyihcn.common.core.beancopy.SimplePageVoCopier;
 import eyihcn.common.core.beancopy.SimpleSaveDtoCopier;
-import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.constant.CommonConstant;
 import eyihcn.common.core.dto.UserInfo;
 import eyihcn.common.core.enums.ErrorCodeEnum;
 import eyihcn.common.core.exception.BusinessException;
@@ -35,8 +35,8 @@ import eyihcn.common.core.page.IPageQuery;
 import eyihcn.common.core.page.PageBean;
 import eyihcn.common.core.page.PageQueryParam;
 import eyihcn.common.core.utils.MyBeanUtil;
-import eyihcn.common.core.utils.QueryWrapperUtils;
 import eyihcn.common.core.utils.ThreadLocalMap;
+import eyihcn.common.core.web.QueryWrapperUtils;
 import io.swagger.annotations.ApiOperation;
 
 /**

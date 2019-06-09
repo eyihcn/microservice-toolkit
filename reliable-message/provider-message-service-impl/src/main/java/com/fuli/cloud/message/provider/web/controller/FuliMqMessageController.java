@@ -27,7 +27,7 @@ import com.fuli.cloud.message.provider.model.enums.PublicEnum;
 import com.fuli.cloud.message.provider.service.FuliMqMessageService;
 import com.fuli.cloud.message.provider.util.QueryWrapperUtils;
 
-import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.constant.CommonConstant;
 import eyihcn.common.core.model.Response;
 import eyihcn.common.core.page.PageBean;
 import eyihcn.common.core.utils.QWrapper;

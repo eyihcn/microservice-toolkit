@@ -2,6 +2,14 @@ package eyihcn.common.core.lock;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * <p>
+ * Description:
+ * </p>
+ * 
+ * @author chenyi
+ * @date 2019年6月9日下午6:51:33
+ */
 public interface IDistributedLockTemplate {
 
 	long DEFAULT_WAIT_TIME = 30;

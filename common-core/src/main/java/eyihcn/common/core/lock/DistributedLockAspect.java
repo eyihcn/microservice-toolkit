@@ -12,6 +12,15 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+/**
+ * <p>
+ * Description: 分布式锁注解拦截切面
+ * </p>
+ * 
+ * @author chenyi
+ * @date 2019年6月9日下午6:49:24
+ */
+@SuppressWarnings("rawtypes")
 @Aspect
 public class DistributedLockAspect {
 
@@ -24,7 +33,7 @@ public class DistributedLockAspect {
 		this.lockTemplate = lockTemplate;
 	}
 
-	@Pointcut("@annotation(eyihcn.common.core.lock.DistributedLock)")
+	@Pointcut("@annotation(eyihcn.common.core.lock.DistributedLockAnotation)")
 	public void distributedLockAspect() {
 	}
 
@@ -32,7 +41,7 @@ public class DistributedLockAspect {
 	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
 
 		// 切点所在的类
-		Class targetClass = pjp.getTarget().getClass();
+		Class<? extends Object> targetClass = pjp.getTarget().getClass();
 		// 使用了注解的方法
 		String methodName = pjp.getSignature().getName();
 
@@ -54,7 +63,7 @@ public class DistributedLockAspect {
 
 	public String getLockName(Method method, Object[] args) {
 		Objects.requireNonNull(method);
-		DistributedLock annotation = method.getAnnotation(DistributedLock.class);
+		DistributedLockAnotation annotation = method.getAnnotation(DistributedLockAnotation.class);
 
 		String lockName = annotation.lockName(), param = annotation.param();
 
@@ -118,7 +127,7 @@ public class DistributedLockAspect {
 
 	public Object lock(ProceedingJoinPoint pjp, Method method, final String lockName) {
 
-		DistributedLock annotation = method.getAnnotation(DistributedLock.class);
+		DistributedLockAnotation annotation = method.getAnnotation(DistributedLockAnotation.class);
 
 		boolean fairLock = annotation.fairLock();
 
@@ -145,10 +154,11 @@ public class DistributedLockAspect {
 		}, fairLock);
 	}
 
-	public Object tryLock(ProceedingJoinPoint pjp, DistributedLock annotation, final String lockName,
+	public Object tryLock(ProceedingJoinPoint pjp, DistributedLockAnotation annotation, final String lockName,
 			boolean fairLock) {
 
-		long waitTime = annotation.waitTime(), leaseTime = annotation.leaseTime();
+		long waitTime = annotation.waitTime();
+		long leaseTime = annotation.leaseTime();
 		TimeUnit timeUnit = annotation.timeUnit();
 
 		return lockTemplate.tryLock(new IDistributedLockCallback<Object>() {

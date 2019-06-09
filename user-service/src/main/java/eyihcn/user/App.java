@@ -49,7 +49,7 @@ public class App {
 	 * SQL执行效率插件
 	 */
 	@Bean
-	@Profile({ "dev", "test" }) // 设置 dev test 环境开启
+	@Profile({ "dev", "test", "home" }) // 设置 dev test 环境开启
 	public PerformanceInterceptor performanceInterceptor() {
 		return new PerformanceInterceptor();
 	}

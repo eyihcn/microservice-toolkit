@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eyihcn.common.core.annotation;
+package eyihcn.common.core.web;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -57,10 +57,6 @@ public @interface QueryKey {
 		NULL,
 		/** is not null */
 		NOT_NULL
-		/** order by desc */
-//		ORDER_BY_DESC,
-		/** order by asc */
-//		ORDER_BY_ASC
 	}
 
 	/**

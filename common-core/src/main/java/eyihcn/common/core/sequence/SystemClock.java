@@ -1,4 +1,4 @@
-package eyihcn.common.core.com.sequence;
+package eyihcn.common.core.sequence;
 
 import java.sql.Timestamp;
 import java.util.concurrent.Executors;

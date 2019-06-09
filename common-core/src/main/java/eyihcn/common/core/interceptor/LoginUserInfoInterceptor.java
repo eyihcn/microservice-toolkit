@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.alibaba.fastjson.JSONObject;
 
-import eyihcn.common.core.constants.CommonConstant;
+import eyihcn.common.core.constant.CommonConstant;
 import eyihcn.common.core.dto.UserInfo;
 import eyihcn.common.core.utils.ThreadLocalMap;
 import lombok.extern.slf4j.Slf4j;

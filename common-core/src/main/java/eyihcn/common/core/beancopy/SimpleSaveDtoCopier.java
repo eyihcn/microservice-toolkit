@@ -7,6 +7,15 @@ import org.springframework.stereotype.Component;
 
 import eyihcn.common.core.model.BaseEntity;
 
+/**
+ * 
+ * <p>
+ * Description: 简单拷贝属性
+ * </p>
+ * 
+ * @author chenyi
+ * @date 2019年6月9日下午5:17:54
+ */
 @Component
 public class SimpleSaveDtoCopier implements ISaveDtoCopier {
 

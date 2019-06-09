@@ -7,10 +7,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 
+ * <p>
+ * Description: 分布式锁注解
+ * </p>
+ * 
+ * @author chenyi
+ * @date 2019年6月9日下午6:48:33
+ */
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DistributedLock {
+public @interface DistributedLockAnotation {
 	/**
 	 * 锁的名称。 如果lockName可以确定，直接设置该属性。
 	 */

@@ -2,8 +2,6 @@ package eyihcn.common.core.constant;
 
 /**
  * The class Global constant.
- *
- * @author paascloud.net@gmail.com
  */
 public class GlobalConstant {
 

@@ -10,6 +10,14 @@ import com.google.common.collect.Lists;
 
 import eyihcn.common.core.model.BaseEntity;
 
+/**
+ * <p>
+ * Description: 简单的拷贝属性
+ * </p>
+ * 
+ * @author chenyi
+ * @date 2019年6月9日下午5:17:11
+ */
 @Component
 public class SimplePageVoCopier implements IPageVoCopier {
 

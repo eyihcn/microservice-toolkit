@@ -1,4 +1,4 @@
-package eyihcn.common.core.constants;
+package eyihcn.common.core.constant;
 
 public class CommonConstant {
 

@@ -135,6 +135,7 @@ public class JacksonUtil {
 	 * @return t t
 	 * @throws IOException the io exception
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T parseJson(String jsonValue, TypeReference<T> valueTypeRef) throws IOException {
 		Preconditions.checkArgument(StringUtils.isNotEmpty(jsonValue),
 				"this argument is required; it must not be null");
@@ -179,6 +180,7 @@ public class JacksonUtil {
 	 * @return t t
 	 * @throws IOException the io exception
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T parseJsonWithFormat(String jsonValue, JavaType valueType) throws IOException {
 		Preconditions.checkArgument(StringUtils.isNotEmpty(jsonValue),
 				"this argument is required; it must not be null");
@@ -194,6 +196,7 @@ public class JacksonUtil {
 	 * @return t t
 	 * @throws IOException the io exception
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T parseJsonWithFormat(String jsonValue, TypeReference<T> valueTypeRef) throws IOException {
 		Preconditions.checkArgument(StringUtils.isNotEmpty(jsonValue), "jsonValue is not null");
 		return (T) formatedMapper.readValue(jsonValue, valueTypeRef);
