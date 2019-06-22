@@ -5,14 +5,16 @@ import java.util.concurrent.CountDownLatch;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
-public class Worker1 implements Runnable {
+import eyihcn.common.core.lock.DistributedLockManager;
+
+public class TryLockTest implements Runnable {
 
 	private final CountDownLatch startSignal;
 	private final CountDownLatch doneSignal;
 	private final DistributedLockManager distributedLockManager;
 	private RedissonClient redissonClient;
 
-	public Worker1(CountDownLatch startSignal, CountDownLatch doneSignal, DistributedLockManager distributedLockManager,
+	public TryLockTest(CountDownLatch startSignal, CountDownLatch doneSignal, DistributedLockManager distributedLockManager,
 			RedissonClient redissonClient) {
 		this.startSignal = startSignal;
 		this.doneSignal = doneSignal;
@@ -28,11 +30,17 @@ public class Worker1 implements Runnable {
 
 			startSignal.await();
 
-			Integer count = distributedLockManager.aspect(() -> {
+//			Integer count = aspect("lock");
+
+			Integer count = distributedLockManager.aspectTryLock("lock", () -> {
+				// 记录成功获得锁的次数
+				DistributedLockTestController.trySuccessCount.incrementAndGet();
 				return aspectBusiness();
 			});
 
-			System.out.println(Thread.currentThread().getName() + ": count = " + count);
+			if (count != null) {
+				System.out.println(Thread.currentThread().getName() + ": count = " + count);
+			}
 
 			doneSignal.countDown();
 		} catch (Exception e) {
@@ -40,11 +48,7 @@ public class Worker1 implements Runnable {
 		}
 	}
 
-	public int aspect(String lockName) {
-		return distributedLockManager.aspect(lockName, this);
-	}
-
-	public int aspectBusiness(String lockName) {
+	public Integer aspectBusiness(String lockName) {
 		RMap<String, Integer> map = redissonClient.getMap("distributionTest");
 
 		Integer count = map.get("count");
@@ -57,8 +61,10 @@ public class Worker1 implements Runnable {
 		return count;
 	}
 
-	private int aspectBusiness() {
+	private Integer aspectBusiness() {
 		RMap<String, Integer> map = redissonClient.getMap("distributionTest");
+
+
 		Integer count1 = map.get("count");
 		if (count1 % 2 == 0) {
 			try {

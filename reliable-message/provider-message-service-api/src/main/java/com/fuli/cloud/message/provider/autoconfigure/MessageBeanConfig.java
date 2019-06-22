@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fuli.cloud.message.provider.aspect.ConsumerAroundHandlerAspect;
 import com.fuli.cloud.message.provider.aspect.ProducerAroundHandlerAspect;
+import com.fuli.cloud.message.provider.util.ReliableMessageManager;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -23,4 +24,10 @@ public class MessageBeanConfig {
     	log.debug("创建切面 ：ConsumerAroundHandlerAspect");
         return new ConsumerAroundHandlerAspect();
     }
+
+	@Bean
+	public ReliableMessageManager reliableMessageManager() {
+		log.debug("创建切面 ：ReliableMessageManager");
+		return new ReliableMessageManager();
+	}
 }

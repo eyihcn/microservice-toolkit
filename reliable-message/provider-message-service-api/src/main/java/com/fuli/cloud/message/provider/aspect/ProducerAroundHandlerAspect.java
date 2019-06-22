@@ -19,7 +19,6 @@ import com.fuli.cloud.message.provider.model.domain.FuliMqMessage;
 import com.fuli.cloud.message.provider.model.enums.ProduceConcurrentlyStatusEnum;
 import com.fuli.cloud.message.provider.model.enums.ProduceTypeEnum;
 import com.fuli.cloud.message.provider.service.feign.FuliMqMessageFeignApi;
-import com.fuli.cloud.message.provider.util.MessageBizResultUtils;
 
 import eyihcn.common.core.enums.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +50,11 @@ public class ProducerAroundHandlerAspect {
 	 * Add exe time method object.
 	 *
 	 * @param joinPoint the join point
+	 * @return
 	 * @return the object
 	 */
 	@Around(value = "mqProducerStoreAnnotationPointcut()")
-	public void processMqProducerStoreJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object processMqProducerStoreJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		long startTime = System.currentTimeMillis();
 		log.debug("processMqProducerStoreJoinPoint - 线程id={}", Thread.currentThread().getId());
@@ -68,20 +68,21 @@ public class ProducerAroundHandlerAspect {
 			throw new FuliMqMessageBizException(ErrorCodeEnum.MESSAGE_SDK10050011, methodName);
 		}
 		final FuliMqMessage domain = (FuliMqMessage) (args[0]);
-		MessageProducerAroundHandler annotation = getAnnotation(joinPoint);
-		ProduceTypeEnum produceType = annotation.produceType();
+		ProduceTypeEnum produceType = getAnnotation(joinPoint).produceType();
 		if (ProduceTypeEnum.SAVE_AND_SEND == produceType) {
 			// 直接存储消息为SENDING,且投递到MQ
 			fuliMqMessageFeignApi.saveAndSendMessage(domain);
-			joinPoint.proceed();
 			log.info("生产者切面执行完成, 目标方法[{}],总耗时={}ms", methodName, System.currentTimeMillis() - startTime);
-			return;
+			return joinPoint.proceed();
 		}
 		// WAITING_AND_CONFIRM发送类型， 处理业务之前，保存预发送消息
 		fuliMqMessageFeignApi.saveMessageWaitingConfirm(domain);
 		// 处理主动发业务
-		joinPoint.proceed();
-		ProduceConcurrentlyStatusEnum produceResult = MessageBizResultUtils.getProduceResult();
+		Object proceed = joinPoint.proceed();
+		if (!(proceed instanceof ProduceConcurrentlyStatusEnum)) {
+			throw new RuntimeException("请返回生产消息的业务处理结果枚举类型 ProduceConcurrentlyStatusEnum");
+		}
+		ProduceConcurrentlyStatusEnum produceResult = (ProduceConcurrentlyStatusEnum) proceed;
 		log.debug("生产者，目标方法={}, 业务执行结果, result={}", methodName, produceResult);
 		try {
 			if (ProduceConcurrentlyStatusEnum.BUSINESS_SUCCESS == produceResult) {
@@ -95,9 +96,9 @@ public class ProducerAroundHandlerAspect {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			MessageBizResultUtils.clearProduceResult();
 			log.info("生产者切面执行完成, 目标方法[{}],总耗时={}ms", methodName, System.currentTimeMillis() - startTime);
 		}
+		return proceed;
 	}
 
 	private static MessageProducerAroundHandler getAnnotation(JoinPoint joinPoint) {

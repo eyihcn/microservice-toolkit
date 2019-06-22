@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eyihcn.common.core.lock.DistributedLockManager;
 import eyihcn.common.core.lock.IDistributedLockCallback;
 import eyihcn.common.core.lock.IDistributedLockTemplate;
 
@@ -82,7 +83,7 @@ public class DistributedLockTestController {
 		CountDownLatch doneSignal = new CountDownLatch(count);
 
 		for (int i = 0; i < count; ++i) { // create and start threads
-			new Thread(new Worker2(startSignal, doneSignal, distributedLockManager, redissonClient)).start();
+			new Thread(new TryLockTest(startSignal, doneSignal, distributedLockManager, redissonClient)).start();
 		}
 
 		startSignal.countDown(); // let all threads proceed
@@ -109,7 +110,7 @@ public class DistributedLockTestController {
 		CountDownLatch doneSignal = new CountDownLatch(count);
 
 		for (int i = 0; i < count; ++i) { // create and start threads
-			new Thread(new Worker1(startSignal, doneSignal, distributedLockManager, redissonClient)).start();
+			new Thread(new LockTest1(startSignal, doneSignal, distributedLockManager, redissonClient)).start();
 		}
 
 		startSignal.countDown(); // let all threads proceed

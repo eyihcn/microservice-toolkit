@@ -5,14 +5,16 @@ import java.util.concurrent.CountDownLatch;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
-public class Worker2 implements Runnable {
+import eyihcn.common.core.lock.DistributedLockManager;
+
+public class LockTest1 implements Runnable {
 
 	private final CountDownLatch startSignal;
 	private final CountDownLatch doneSignal;
 	private final DistributedLockManager distributedLockManager;
 	private RedissonClient redissonClient;
 
-	public Worker2(CountDownLatch startSignal, CountDownLatch doneSignal, DistributedLockManager distributedLockManager,
+	public LockTest1(CountDownLatch startSignal, CountDownLatch doneSignal, DistributedLockManager distributedLockManager,
 			RedissonClient redissonClient) {
 		this.startSignal = startSignal;
 		this.doneSignal = doneSignal;
@@ -28,17 +30,11 @@ public class Worker2 implements Runnable {
 
 			startSignal.await();
 
-//			Integer count = aspect("lock");
-
-			Integer count = distributedLockManager.aspectTryLock(() -> {
-				// 记录成功获得锁的次数
-				DistributedLockTestController.trySuccessCount.incrementAndGet();
+			Integer count = distributedLockManager.lock("lock", () -> {
 				return aspectBusiness();
 			});
 
-			if (count != null) {
-				System.out.println(Thread.currentThread().getName() + ": count = " + count);
-			}
+			System.out.println(Thread.currentThread().getName() + ": count = " + count);
 
 			doneSignal.countDown();
 		} catch (Exception e) {
@@ -46,23 +42,8 @@ public class Worker2 implements Runnable {
 		}
 	}
 
-	public Integer aspectBusiness(String lockName) {
+	private int aspectBusiness() {
 		RMap<String, Integer> map = redissonClient.getMap("distributionTest");
-
-		Integer count = map.get("count");
-
-		if (count > 0) {
-			count = count - 1;
-			map.put("count", count);
-		}
-
-		return count;
-	}
-
-	private Integer aspectBusiness() {
-		RMap<String, Integer> map = redissonClient.getMap("distributionTest");
-
-
 		Integer count1 = map.get("count");
 		if (count1 % 2 == 0) {
 			try {

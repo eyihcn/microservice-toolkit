@@ -19,4 +19,9 @@ public class RedissonConfig {
 	DistributedLockAspect distributedLockAspect(@Autowired IDistributedLockTemplate iDistributedLockTemplate) {
 		return new DistributedLockAspect(iDistributedLockTemplate);
 	}
+
+	@Bean
+	DistributedLockManager distributedLockManager(@Autowired IDistributedLockTemplate iDistributedLockTemplate) {
+		return new DistributedLockManager();
+	}
 }
