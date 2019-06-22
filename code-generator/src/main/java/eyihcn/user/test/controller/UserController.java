@@ -10,14 +10,17 @@ import eyihcn.user.test.entity.User;
 import eyihcn.user.test.service.UserService;
 import io.swagger.annotations.Api;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
 /**
- * @author chenyi
- * @date 2019-06-05${time} ${tags}
+ * @author chenyi 
+ * @date 2019-06-16${time}
+ * ${tags}
  */
 @RestController
 @Validated
-@RequestMapping("/!{table.entityPath}")
-@Api(value = "管理", tags = "管理")
+@RequestMapping("/user")
+@Api(value = "管理" , tags = "管理")
 public class UserController extends CrudController<UserService, User, Long, User, UserPageDto, User> {
 
 }

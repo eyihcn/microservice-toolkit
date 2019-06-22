@@ -42,7 +42,8 @@ public class CodeGenerator {
 
 	public static final String URL = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 	public static final String USERNAME = "root";
-	public static final String PASSWORD = "affuli123";
+	public static final String PASSWORD = "root";
+//	public static final String PASSWORD = "affuli123";
 	// #是 mysql-connector-java 6中的
 	public static final String DRIVERNAME = "com.mysql.cj.jdbc.Driver";
 	// #是 mysql-connector-java 5中的
@@ -86,7 +87,7 @@ public class CodeGenerator {
 		autoGenerator.setDataSource(dataSourceConfig);
 
 		TemplateConfig templateConfig = new TemplateConfig();
-		templateConfig.setController("/templates/vm/simpleController.java.vm");
+		templateConfig.setController("/templates/vm/CrudController.java.vm");
 		templateConfig.setService("/templates/vm/service.java.vm");
 		templateConfig.setServiceImpl("/templates/vm/serviceImpl.java.vm");
 		templateConfig.setEntity("/templates/vm/entity.java.vm");

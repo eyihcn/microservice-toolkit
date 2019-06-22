@@ -5,51 +5,37 @@ import lombok.experimental.Accessors;
 
 import eyihcn.common.core.model.BaseEntity;
 
-#if(${activeRecord})
-#end
+
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
-#end
-#if(${entityLombokModel})
-
 #end
 /**
  * <p>Description: $!{table.comment}</p> 
  * @author ${author}
  * @date ${date}
  */
-#if(${entityLombokModel})
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-#end
 #if(${table.convert})
 @TableName("${table.name}")
 #end
-#if(${superEntityClass})
-public class ${entity} implements Serializable{
-#elseif(${activeRecord})
-public class ${entity} extends Model<${entity}> {
-#else
 public class ${entity} extends BaseEntity<${table.fields[0].propertyType}> implements Serializable {
-#end
-
     private static final long serialVersionUID = 1L;
 
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
-#if(${field.keyFlag})
-#set($keyPropertyName=${field.propertyName})
-#end
+	#if(${field.keyFlag})
+		#set($keyPropertyName=${field.propertyName})
+	#end
 
 #if(${field.keyFlag})
-## 主键
-#if(${field.keyIdentityFlag})
+	## 主键
+	#if(${field.keyIdentityFlag})
    @Override
    public Long getId() {
 		return this.id;
    }
-	
    @Override
    public void setId(Long id) {
 		this.id = id;
@@ -60,7 +46,7 @@ public class ${entity} extends BaseEntity<${table.fields[0].propertyType}> imple
      */
 	#end
 @TableId(value="${field.name}", type= IdType.AUTO)
-#elseif(${field.convert})
+	#elseif(${field.convert})
 	#if("$!field.comment" != "")
 	/**
 	 * ${field.comment}
@@ -87,8 +73,8 @@ public class ${entity} extends BaseEntity<${table.fields[0].propertyType}> imple
 #if(${logicDeleteFieldName}==${field.name})
     @TableLogic
 #end
-   public static final String ${field.name.toUpperCase()} = "${field.name}";
    private ${field.propertyType} ${field.propertyName};
+   public static final String ${field.name.toUpperCase()} = "${field.name}";
 #end
 ## ----------  END 字段循环遍历  ----------
 

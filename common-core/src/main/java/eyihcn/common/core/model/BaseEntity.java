@@ -21,10 +21,6 @@ import lombok.experimental.FieldNameConstants;
 /**
  * 
  * <p>
- * Description:
- * </p>
- * 
- * <p>
  * Description: 基类（id,创建人，创建时间，更新人，更新时间）。 转json时，过滤为null的字段
  * </p>
  * 
