@@ -19,8 +19,6 @@ import eyihcn.common.core.lock.IDistributedLockTemplate;
 @RequestMapping("/distributedLockTest")
 public class DistributedLockTestController {
 
-
-
 	@Autowired
 	private RedissonClient redissonClient;
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eyihcn.common.core.web;
 
 import java.lang.reflect.Field;
@@ -9,6 +6,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Sets;
 
@@ -17,7 +17,7 @@ import eyihcn.common.core.web.QueryKey.Operator;
 
 /**
  * <p>
- * Description:
+ * Description: 将查询参数dto转换为QueryWrapper工具
  * </p>
  * 
  * @author chenyi
@@ -134,12 +134,11 @@ public class QueryWrapperUtils {
 	 */
 
 	private static <T> void convertToQueryWrapper(QueryWrapper<T> queryWrapper, Object queryObject, Field f) {
-		// 跳过静态字段
-		if (Modifier.isStatic(f.getModifiers())) {
+
+		f.setAccessible(true);
+		if (skipField(f)) {
 			return;
 		}
-		f.setAccessible(true);
-
 		Object val = null;
 		try {
 			val = f.get(queryObject);
@@ -229,6 +228,19 @@ public class QueryWrapperUtils {
 		}
 	}
 
+	private static boolean skipField(Field f) {
+		// 跳过静态字段
+		if (Modifier.isStatic(f.getModifiers())) {
+			return true;
+		}
+		// 跳过注解为@TableField(exist = false)字段
+		TableField annotation = f.getAnnotation(TableField.class);
+		if (null != annotation && !annotation.exist()) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * <p>
 	 * Description: 获取数据库字段的操作符
@@ -262,6 +274,11 @@ public class QueryWrapperUtils {
 
 	private static String getFieldNameUnderline(Field f) {
 
+		// 优先从@TableField中获取字段
+		TableField tableField = f.getAnnotation(TableField.class);
+		if (null != tableField && StringUtils.isNotBlank(tableField.value())) {
+			return tableField.value();
+		}
 		String fieldName = f.getName();
 		QueryKey annotation = f.getAnnotation(QueryKey.class);
 		// 如果没有注解 或者 注解的name属性为空，查询数据库字段名默认是java字段名称驼峰转下换线，操作符是EQ

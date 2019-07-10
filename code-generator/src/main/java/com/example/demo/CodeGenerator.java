@@ -34,23 +34,23 @@ public class CodeGenerator {
 	@Test
 	public void test1() {
 		CodeGenerator codeGenerator = new CodeGenerator();
-		codeGenerator.getAutoGenerator();
+		codeGenerator.getAutoGenerator("saas_announcement");
 	}
 
 //    driverClassName: com.mysql.jdbc.Driver    
 //    driverClassName: com.mysql.cj.jdbc.Driver 
 
-	public static final String URL = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+	public static final String URL = "jdbc:mysql://172.16.4.3:3306/saas_portal_server?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 	public static final String USERNAME = "root";
-	public static final String PASSWORD = "root";
-//	public static final String PASSWORD = "affuli123";
+//	public static final String PASSWORD = "root";
+	public static final String PASSWORD = "affuli123";
 	// #是 mysql-connector-java 6中的
 	public static final String DRIVERNAME = "com.mysql.cj.jdbc.Driver";
 	// #是 mysql-connector-java 5中的
 //    public static final String  DRIVERNAME = "com.mysql.jdbc.Driver"; 
 
-//	public static final String PACK_NAME = "com.fuli.cloud";
-	public static final String PACK_NAME = "eyihcn.user";
+	public static final String PACK_NAME = "com.fuli.cloud";
+//	public static final String PACK_NAME = "eyihcn.user";
 	public static String projectPath = System.getProperty("user.dir") + "/src/main/java";
 
 	private static final String author = "chenyi";

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty(name = "spring.redis.redisson.config")
+@ConditionalOnProperty(name = "spring.redis.redisson.distributedlock", havingValue = "true")
 public class RedissonConfig {
 
 	@Bean
