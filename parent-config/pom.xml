@@ -29,7 +29,7 @@
 		<spring-cloud-starter-alibaba-nacos-discovery.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-discovery.version>
 		<spring-cloud-starter-alibaba-nacos-config.version>0.9.0.RELEASE</spring-cloud-starter-alibaba-nacos-config.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
-		<fastjson.version>1.2.47</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<!--start 消息中心版本定义 -->
 		<provider-message-service-impl.version>1.0.1</provider-message-service-impl.version>
 		<provider-message-service-api.version>1.0.1</provider-message-service-api.version>
